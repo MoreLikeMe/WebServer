@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+	<script type="text/javascript">
+		function gameStart(){    //start of the game onload
+	document.turn="X";
+	document.final=null;
+	document.count=0;
+	message(document.turn + " will Start the Game");
+}
+function message(t){     //to print the appropriate messages
+	document.getElementById("msg").innerHTML=t;
+}
+function check(box){     //putting the value in the box
+	if(document.final!=null){
+		message(document.final+" has already Won this Game..");
+	}
+	else if(document.count==9)
+		message("Great!!!Match Drawn..");
+	else if(box.innerHTML==""){
+		box.innerHTML=document.turn;
+		gameOver();
+		switchTurn();
+	}
+	else{
+		message("Choose an Empty Box");
+	}
+}
+function gameOver(){     //check the winner
+	if(checkMatch()){
+		document.final=document.turn;
+	}
+}
+function switchTurn(){    //switches the turn between 'X' and 'O'
+	document.count+=1;
+	if(document.final!=null)
+		message("Congrats "+document.final+"!!you have won the Game.");
+	else if(document.count==9)
+		message("Great!!!Match Drawn..");
+	else if(document.turn=="X"){
+		document.turn="O";
+		message(document.turn+"'s Turn");
+	}
+	else{
+		document.turn="X";
+		message(document.turn+"'s Turn");
+	}
+}
+
+function checkMatch(){     //find the result set and search for the matches in a row column and diagonal
+	var temp=document.turn;
+	if(checkLine(temp,1,2,3) ||
+	   checkLine(temp,4,5,6) ||
+	   checkLine(temp,7,8,9) ||
+	   checkLine(temp,1,4,7) ||
+	   checkLine(temp,2,5,8) ||
+	   checkLine(temp,3,6,9) ||
+	   checkLine(temp,1,5,9) ||
+	   checkLine(temp,3,5,7)){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+function checkLine(temp,x,y,z){    //checks perticular line as specified by the checkMatch() function
+	var a=document.getElementById("box" + x).innerHTML;
+	var b=document.getElementById("box" + y).innerHTML;
+	var c=document.getElementById("box" + z).innerHTML;
+	if(a==temp && b==temp && c==temp){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+function restart(){   //to restart the game 
+	for(var i=1;i<10;i++){
+		document.getElementById("box"+i).innerHTML="";
+		gameStart();
+	}
+}
+	</script>
+	<style type="text/css">
+	  .outer{
+	  	background-color: #fae6ff;
+	  	padding: 10px;
+	  	width: 32%;
+	  }
+	  .inner{
+	  	margin-top: 30px;
+	  }
+	  .head{
+	  	text-decoration: blink;
+	  	color: #4d4dff;
+	  }
+	  .box{
+	  	height: 50px;
+	  	width:50px;
+	  	text-align: center;
+	  	font-size: 38px;
+	  }
+	  .butt{
+	  	background-color: #4d4dff;
+	  	color: white;
+	  	font-size: 17px; 
+	  	height: 50px;
+	  	width: auto;
+	  }
+	  #msg{
+	  	font-size: 20px;
+	  }
+	</style>
+</head>
+
+<body onload="gameStart()">
+<center>
+<div class="outer">
+<div>
+<h2 class="head">Tic Tac Toe</h2>
+<hr>
+</div>
+<div class="inner">
+	<p id="msg"></p>
+	<table border=1px solid black;>
+		<tr>
+			<td class="box" id="box1" onclick="check(this)"></td>
+			<td class="box" id="box2" onclick="check(this)"></td>
+			<td class="box" id="box3" onclick="check(this)"></td>
+		</tr>
+		<tr>
+			<td class="box" id="box4" onclick="check(this)"></td>
+			<td class="box" id="box5" onclick="check(this)"></td>
+			<td class="box" id="box6" onclick="check(this)"></td>
+		</tr>
+		<tr>
+			<td class="box" id="box7" onclick="check(this)"></td>
+			<td class="box" id="box8" onclick="check(this)"></td>
+			<td class="box" id="box9" onclick="check(this)"></td>
+		</tr>
+	</table>
+	<br>
+	<button type="button" class="butt" onclick="restart()">Restart</button>
+</div>
+</div>
+</center>
+</body>
+</html>
